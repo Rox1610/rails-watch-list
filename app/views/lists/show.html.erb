@@ -1,0 +1,23 @@
+<h1><%= @list.name %></h1>
+  <div><%= link_to "Add a new movie", new_list_bookmark_path(@list) %>
+  </div>
+  <div class="container mb-5">
+    <span class="mb-2 d-block"><small><em class="text-muted"><%= "You haven't saved any movies yet!" if @list.movies.empty? %></em></small></span>
+  </div>
+
+
+<div class="list-group" style="width:600px">
+  <% @list.bookmarks.each do |bookmark| %>
+    <div class="list-group-item">
+      <h1><%= bookmark.movie.title %></h1>
+      <img class="movie-img" src="<%= bookmark.movie.poster_url%>" alt="<%= bookmark.movie.title%>" style="width:400px">
+      <p><%= bookmark.movie.overview %></p>
+      <p>Rating: <%= bookmark.movie.rating %></p>
+      <p>Comment: <%= bookmark.comment %></p>
+      <%= link_to "Delete",
+          bookmark_path(bookmark),
+          data: { turbo_method: :delete, turbo_confirm: "Are you sure you want to remove #{bookmark.movie.title} from your #{@list.name} list?"}
+      %>
+    </div>
+  <% end %>
+</div>
