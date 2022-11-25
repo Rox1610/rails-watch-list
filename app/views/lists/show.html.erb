@@ -11,19 +11,21 @@
     <span class="mb-2 d-block"><small><em class="text-muted"><%= "You haven't saved any movies yet!" if @list.movies.empty? %></em></small></span>
   </div>
 
-
-<div class="list-group" style="width:600px">
+<div class="row my-2">
   <% @list.bookmarks.each do |bookmark| %>
-    <div class="list-group-item">
-      <h1><%= bookmark.movie.title %></h1>
+  <div class="col-12 col-sm-6 mb-4" data-aos="zoom-in">
+    <div class="bg-white rounded shadow h-100">
       <img class="movie-img" src="<%= bookmark.movie.poster_url%>" alt="<%= bookmark.movie.title%>" style="width:400px">
-      <p><%= bookmark.movie.overview %></p>
-      <p>Rating: <%= bookmark.movie.rating %></p>
-      <p>Comment: <%= bookmark.comment %></p>
-      <%= link_to "Delete",
-          bookmark_path(bookmark),
-          data: { turbo_method: :delete, turbo_confirm: "Are you sure you want to remove #{bookmark.movie.title} from your #{@list.name} list?"}
+      <div class="p-3 rounded-bottom d-flex flex-column">
+        <strong><%= bookmark.movie.title %> - <span class="text-warning font-weight-normal"> <%= bookmark.movie.rating %> </span><i class="fa-solid fa-star text-warning"></i></strong>
+        <small class="text-muted"><%= bookmark.movie.overview %></small>
+          <div class="d-flex align-items-end justify-content-between pt-4"><div>
+          <i class="fa-regular fa-comment-dots me-2"></i><small class="flex-grow-1"><%= bookmark.comment %></small>
+      </div>
+      <%= link_to "Delete", bookmark_path(bookmark),
+      data: { turbo_method: :delete, turbo_confirm: "Are you sure you want to remove #{bookmark.movie.title} from your #{@list.name} list?"}
       %>
     </div>
+  </div>
   <% end %>
 </div>
