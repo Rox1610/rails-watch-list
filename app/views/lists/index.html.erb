@@ -1,5 +1,10 @@
+<div class="banner" style="background-image: linear-gradient(rgba(0,0,0,0.4),rgba(0,0,0,0.4)), url(<%= asset_path('list_background.jpeg') %>);">
+  <div class="container">
+    <h1><strong>Welcome</strong></h1>
+  </div>
+</div>
 
-<div class="container py-5">
+<div class="container py-4">
   <div class="d-flex align-items-center justify-content-between mb-3">
     <h1 class="mb-0">My lists:</h1>
   </div>
@@ -7,11 +12,10 @@
     <% @lists.each do |list| %>
       <div class="co-12 col-sm-6 col-md-4 mb-3">
         <%= link_to list_path(list), class:"text-decoration-none" do %>
-          <div class="card-category" data-aos="zoom-in">
+          <div class="card-category" data-aos="zoom-in" style="background-image: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url(<%= list.photo.attached? ? cl_image_path(list.photo.key) : asset_path('list_background.jpeg') %>)">
             <%= list.name %>
           </div>
         <% end %>
       </div>
     <% end %>
   </div>
-</div>
