@@ -9,3 +9,6 @@ application.register("hello", HelloController)
 
 import ReadMoreController from "./read_more_controller"
 application.register("read-more", ReadMoreController)
+
+import TomSelectController from "./tom_select_controller"
+application.register("tom-select", TomSelectController)

@@ -10,7 +10,7 @@ export default class extends Controller {
   }
 
   static get classes() {
-    return ["hide"]
+    return ["truncate", "hide"]
   }
 
   static get values() {
@@ -18,7 +18,6 @@ export default class extends Controller {
   }
 
   connect() {
-    this.content = this.contentTarget.textContent;
     this.render()
   }
 
@@ -28,7 +27,7 @@ export default class extends Controller {
     if (this.height() > this.expectedHeight()) {
       this.showLess()
     } else {
-      this.showAllContent()
+      this.showAllConent()
       this.hide(this.moreButtonTarget);
       this.hide(this.lessButtonTarget);
     }
@@ -47,35 +46,12 @@ export default class extends Controller {
   }
 
   showAllContent() {
-    this.removeContent();
-    this.wordsList().forEach((word) => this.addWordToContent(word))
+    this.contentTarget.classList.remove(this.truncateClass);
   }
 
   truncateContent() {
-    this.calculateWordsToDisplayWhenTruncated();
-    this.renderTrucatedContentWithEllipsis();
-  }
-
-  calculateWordsToDisplayWhenTruncated() {
-    this.wordsToDisplayWhenTrucated = [];
-    this.removeContent();
-    this.wordsList().forEach((word) => {
-      if (this.height() < this.expectedHeight()) {
-        this.wordsToDisplayWhenTrucated.push(word)
-        this.addWordToContent(word)
-      }
-    })
-  }
-
-  renderTrucatedContentWithEllipsis() {
-    this.wordsToDisplayWhenTrucated.pop()
-    this.removeContent();
-    this.wordsToDisplayWhenTrucated.forEach((word) => this.addWordToContent(word))
-    this.addToContent("...")
-
-    if (this.height() > this.expectedHeight()) {
-      this.renderTrucatedContentWithEllipsis()
-    }
+    this.contentTarget.style["-webkit-line-clamp"] = this.linesValue;
+    this.contentTarget.classList.add(this.truncateClass);
   }
 
   show(target) {
@@ -84,18 +60,6 @@ export default class extends Controller {
 
   hide(target) {
     target.classList.add(this.hideClass)
-  }
-
-  removeContent() {
-    this.contentTarget.textContent = "";
-  }
-
-  addWordToContent(word) {
-    this.addToContent(" " + word);
-  }
-
-  addToContent(text) {
-    this.contentTarget.textContent += text
   }
 
   lineHeight() {
@@ -109,9 +73,5 @@ export default class extends Controller {
 
   expectedHeight() {
     return this.linesValue * this.lineHeight();
-  }
-
-  wordsList() {
-    return this.content.split(" ")
   }
 }

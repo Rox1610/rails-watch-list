@@ -18,24 +18,41 @@
 <div class="row m-2">
   <% @list.bookmarks.each do |bookmark| %>
   <div class="col-lg-3">
-    <div class="card ">
+    <div class="card">
     <img class="movie-img m-1 p-1" src="<%= bookmark.movie.poster_url%>" alt="<%= bookmark.movie.title%>" style="width:321px">
       <div class="card-body">
-       <div class="d-flex">
-        <strong><%= bookmark.movie.title %> - <span class="text-warning font-weight-normal"> <%= bookmark.movie.rating %> </span><i class="fa-solid fa-star text-warning"></i></strong>
+        <div class="d-flex">
+        <strong><%= bookmark.movie.title %></strong><span class="text-muted" > &nbsp- <%= bookmark.movie.rating %> </span>&nbsp⭐️
         <small class="ms-auto p-1 bd-highlight"> <%= link_to bookmark_path(bookmark), method: :destroy, data: { turbo_method: :delete, turbo_confirm: 'Are you sure?' }, class: 'text-danger' do %>
         <i class="fa-regular fa-trash-can"></i>
         <% end %>
         </small>
-      </div>
-        <div>
-          <small class="text-muted"><%= bookmark.movie.overview %></small>
         </div>
-        <div>
-          <i class="fa-regular fa-comment-dots me-2"></i><small class="flex-grow-1"><%= bookmark.comment %></small>
+        <div data-controller="read-more"
+               data-read-more-lines-value="4"
+               data-read-more-hide-class="hide"
+               data-read-more-truncate-class="line-clamp"
+               data-action="resize@window->read-more#render">
+          <div>
+            <small class="overview" data-read-more-target="content"><%= bookmark.movie.overview %></small>
+            <button class="hide text-muted btn btn-cancel"
+                    data-read-more-target="moreButton"
+                    data-action="read-more#showMore">
+                    <u>Show more...</u>
+            </button>
+            <br>
+            <button class="hide text-muted btn btn-cancel"
+                    data-read-more-target="lessButton"
+                    data-action="read-more#showLess">
+                    <u>Show less</u>
+            </button>
+          </div>
+          <div>
+            <i class="fa-solid fa-quote-left me-2"></i><small class="flex-grow-1"><%= bookmark.comment %></small>
+          </div>
         </div>
       </div>
     </div>
   </div>
-<% end %>
+  <% end %>
 </div>
